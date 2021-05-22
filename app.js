@@ -18,8 +18,9 @@ app.get(`/users`, (req, res) => {
 });
 app.get(`/users/:id`, controller.getUser);
 app.delete(`/delusers/:id`, controller.delUser);
-app.update(`/updateuser/:id`, controller.updateUser);
+app.post(`/updateuser/:id`, controller.updateUser);
 app.post(`/adduser`, controller.addUser);
+app.post(`/getTemp`, controller.getTemp);
 
 app.listen(3000, () => {
   console.log("app is runnining 3000 port");
