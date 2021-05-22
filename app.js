@@ -21,6 +21,7 @@ app.delete(`/delusers/:id`, controller.delUser);
 app.post(`/updateuser/:id`, controller.updateUser);
 app.post(`/adduser`, controller.addUser);
 app.post(`/getTemp`, controller.getTemp);
+app.post(`/getSevenDayForCast`, controller.getSevenDayForCast);
 
 app.listen(3000, () => {
   console.log("app is runnining 3000 port");

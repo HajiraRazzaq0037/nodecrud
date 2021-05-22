@@ -2,7 +2,7 @@ var fs = require("fs");
 const request = require("request");
 const findUser = require("./model");
 const resData = JSON.parse(fs.readFileSync(`./data.json`, "utf-8"));
-
+const apiKey = "ffc06e6623bd1e87a05446c88f2c98a1";
 const controller = {
   getUser: function (req, res) {
     const id = parseInt(req.params.id);
@@ -81,15 +81,29 @@ const controller = {
   getTemp: function (req, res, next) {
     let city = req.body.city;
     // let city = argv.c || req.body.city;
-    let apiKey = "ffc06e6623bd1e87a05446c88f2c98a1";
     let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     request(url, function (err, response, body) {
       if (err) {
         console.log("error:", err);
+        res.send(JSON.parse(err));
       } else {
         console.log("body:", JSON.parse(body));
+        res.writeHead(200, { "Content-Type": "text/html" });
         res.send(JSON.parse(body));
+      }
+    });
+  },
+  getSevenDayForCast: async function (req, res, next) {
+    let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&exclude=hourly,minutely&appid=${apiKey}`;
+
+    await request(url, function (err, response, body) {
+      if (err) {
+        console.log("error:", err);
+        res.send(JSON.parse(err));
+      } else {
+        res.send(JSON.parse(body));
+        // res.send(JSON.parse(body.daily));
       }
     });
   },
