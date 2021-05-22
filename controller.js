@@ -102,8 +102,7 @@ const controller = {
         console.log("error:", err);
         res.send(JSON.parse(err));
       } else {
-        res.send(JSON.parse(body));
-        // res.send(JSON.parse(body.daily));
+        res.send(JSON.parse(body).daily);
       }
     });
   },
