@@ -19,7 +19,7 @@ app.get(`/users`, (req, res) => {
 });
 app.get(`/users/:id`, userController.getUser);
 app.delete(`/delusers/:id`, userController.delUser);
-app.post(`/updateuser/:id`, userController.updateUser);
+app.put(`/updateuser/:id`, userController.updateUser);
 app.post(`/adduser`, userController.addUser);
 app.post(`/getTemp`, tempController.getTemp);
 app.post(`/getSevenDayForCast`, tempController.getSevenDayForCast);
