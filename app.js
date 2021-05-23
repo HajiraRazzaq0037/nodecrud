@@ -4,10 +4,11 @@ const app = express();
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 var fs = require("fs");
-const controller = require("./controller");
+const userController = require("./controller/userController");
+const tempController = require("./controller/tempController");
 
 const resData = JSON.parse(fs.readFileSync(`./data.json`, "utf-8"));
-
+console.log(process.env.MYAPIKEY);
 app.get(`/users`, (req, res) => {
   res.status(200).send({
     status: "success",
@@ -16,12 +17,12 @@ app.get(`/users`, (req, res) => {
     },
   });
 });
-app.get(`/users/:id`, controller.getUser);
-app.delete(`/delusers/:id`, controller.delUser);
-app.post(`/updateuser/:id`, controller.updateUser);
-app.post(`/adduser`, controller.addUser);
-app.post(`/getTemp`, controller.getTemp);
-app.post(`/getSevenDayForCast`, controller.getSevenDayForCast);
+app.get(`/users/:id`, userController.getUser);
+app.delete(`/delusers/:id`, userController.delUser);
+app.post(`/updateuser/:id`, userController.updateUser);
+app.post(`/adduser`, userController.addUser);
+app.post(`/getTemp`, tempController.getTemp);
+app.post(`/getSevenDayForCast`, tempController.getSevenDayForCast);
 
 app.listen(3000, () => {
   console.log("app is runnining 3000 port");
