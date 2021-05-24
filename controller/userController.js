@@ -26,7 +26,7 @@ const controller = {
       });
     }
     let filteredData = resData.filter((sin) => sin.id !== id);
-    fs.writeFile("../data.json", JSON.stringify(filteredData), (err) => {
+    fs.writeFile("./data.json", JSON.stringify(filteredData), (err) => {
       if (err) {
         return err;
       }
