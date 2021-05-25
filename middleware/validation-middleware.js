@@ -10,7 +10,7 @@ const temp = (req, res, next) => {
   }
 };
 const sevenDayForCast = (req, res, next) => {
-  if (!req.query.latitude && !req.query.longitude) {
+  if (!req.query.latitude || !req.query.longitude) {
     res.status(422).send({
       success: false,
       message: "missing parameters",
