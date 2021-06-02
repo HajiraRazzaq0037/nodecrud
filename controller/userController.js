@@ -1,77 +1,56 @@
-var fs = require("fs");
-const findUser = require("../model");
-const resData = JSON.parse(fs.readFileSync(`./data.json`, "utf-8"));
-const getUser = (req, res) => {
-  const id = parseInt(req.params.id);
-  // return Not found and 404 for an non existing id or if id !== int
-  if (isNaN(id) || !id) {
-    return res.status(404).send({
-      status: "error",
-      error: "Not found",
-    });
-  }
-  return res.status(200).send({
-    status: "success",
-    data: findUser(id),
-  });
-};
-const delUser = (req, res) => {
-  const id = parseInt(req.params.id);
-  // return Not found and 404 for an non existing id or if id !== int
-  if (isNaN(id) || !id) {
-    return res.status(404).send({
-      status: "error",
-      error: "Not found",
-    });
-  }
-  let filteredData = resData.filter((sin) => sin.id !== id);
-  fs.writeFile("./data.json", JSON.stringify(filteredData), (err) => {
-    if (err) {
-      return err;
-    }
-    return res.status(200).send({
-      status: "success",
-      data: filteredData,
-    });
-  });
-};
-const updateUser = (req, res, next) => {
-  const id = parseInt(req.params.id);
-  // return Not found and 404 for an non existing id or if id !== int
-  if (isNaN(id) || !id || resData.find((sin) => sin.id === id) ? false : true) {
-    return res.status(404).send({
-      status: "error",
-      error: "Not found",
-    });
-  }
-  let filteredData = resData.find((sin) => sin.id === id);
-  (filteredData.title = req.body.title),
-    (filteredData.body = req.body.body),
-    fs.writeFile("../data.json", JSON.stringify(resData), (err) => {
+const Users = require("../models/user");
+const getAllUser = (req, res) => {
+  const response = {};
+  try {
+    Users.find(async (err, data) => {
       if (err) {
-        return err;
+        response.statusCode = 500;
+        response.body = JSON.stringify({ err });
+        res.status(response.statusCode).send(response.body);
+      } else {
+        response.statusCode = 200;
+        response.body = JSON.stringify({
+          message: "Ok",
+          data: data,
+        });
       }
-      return res.status(200).send({
-        status: "success",
-        data: resData,
-      });
+      await res.status(response.statusCode).send(response.body);
     });
+  } catch (err) {
+    response.statusCode = 500;
+    response.body = JSON.stringify({ err });
+    res.status(response.statusCode).send(response.body);
+  }
 };
+const getUser = (req, res) => {};
+const delUser = (req, res) => {};
+const updateUser = (req, res, next) => {};
 const addUser = (req, res, next) => {
-  let user = {
-    title: req.body.title,
-    body: req.body.body,
-    id: parseFloat(resData[resData.length - 1].id) + 1,
-    userId: 1,
-  };
-  resData.push(user);
-  fs.writeFile("../data.json", JSON.stringify(resData), (err) => {
-    if (err) {
-      return console.log(err);
-    }
-    console.log("The file was saved!");
-    res.send("done");
-  });
+  const response = {};
+  try {
+    let payload = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+    };
+    Users.create(payload, async (err, data) => {
+      if (err) {
+        response.statusCode = 500;
+        response.body = JSON.stringify({ err });
+        res.status(response.statusCode).send(response.body);
+      } else {
+        response.statusCode = 200;
+        response.body = JSON.stringify({
+          message: "Ok",
+          data: data,
+        });
+      }
+      await res.status(response.statusCode).send(response.body);
+    });
+  } catch (err) {
+    response.statusCode = 500;
+    response.body = JSON.stringify({ err });
+    res.status(response.statusCode).send(response.body);
+  }
 };
 
 module.exports = {
@@ -79,4 +58,5 @@ module.exports = {
   addUser,
   updateUser,
   delUser,
+  getAllUser,
 };
