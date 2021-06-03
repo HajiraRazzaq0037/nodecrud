@@ -1,34 +1,11 @@
 const Users = require("../models/user");
-
-// const handler = (err, data)=>{
-//   if (err) {
-//     response.statusCode = 500;
-//     response.body = err;
-//     res.status(response.statusCode).send(response.body);
-//   } else {
-//     response.statusCode = 200;
-//     response.body = {
-//       message: "Ok",
-//       data: data,
-//     };
-// }
+const helperFun = require("../helpers/function");
 
 const getAllUser = (req, res) => {
   const response = {};
   try {
-    Users.find(async (err, data) => {
-      if (err) {
-        response.statusCode = 500;
-        response.body = err;
-        res.status(response.statusCode).send(response.body);
-      } else {
-        response.statusCode = 200;
-        response.body = {
-          message: "Ok",
-          data: data,
-        };
-      }
-      await res.status(response.statusCode).send(response.body);
+    Users.find((err, data) => {
+      helperFun.handler(err, data, res);
     });
   } catch (err) {
     response.statusCode = 500;
@@ -39,19 +16,8 @@ const getAllUser = (req, res) => {
 const getUser = (req, res) => {
   const response = {};
   try {
-    Users.findOne({ _id: req.params.id }, async (err, data) => {
-      if (err) {
-        response.statusCode = 500;
-        response.body = { err };
-        res.status(response.statusCode).send(response.body);
-      } else {
-        response.statusCode = 200;
-        response.body = {
-          message: "ok",
-          data: data,
-        };
-      }
-      await res.status(response.statusCode).send(response.body);
+    Users.findOne({ _id: req.params.id }, (err, data) => {
+      helperFun.handler(err, data, res);
     });
   } catch (err) {
     response.statusCode = 500;
@@ -63,19 +29,8 @@ const delUser = (req, res) => {
   const response = {};
   const id = req.params.id;
   try {
-    Users.findOneAndRemove(id, async (err, data) => {
-      if (err) {
-        response.statusCode = 500;
-        response.body = { err };
-        res.status(response.statusCode).send(response.body);
-      } else {
-        response.statusCode = 200;
-        response.body = {
-          message: "ok",
-          data: data,
-        };
-      }
-      await res.status(response.statusCode).send(response.body);
+    Users.findOneAndRemove(id, (err, data) => {
+      helperFun.handler(err, data, res);
     });
   } catch (err) {
     response.statusCode = 500;
@@ -92,19 +47,8 @@ const updateUser = (req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
       },
-      async (err, data) => {
-        if (err) {
-          response.statusCode = 500;
-          response.body = { err };
-          res.status(response.statusCode).send(response.body);
-        } else {
-          response.statusCode = 200;
-          response.body = {
-            message: "ok",
-            data: data,
-          };
-        }
-        await res.status(response.statusCode).send(response.body);
+      (err, data) => {
+        helperFun.handler(err, data, res);
       }
     );
   } catch (err) {
@@ -120,19 +64,8 @@ const addUser = (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
     };
-    Users.create(payload, async (err, data) => {
-      if (err) {
-        response.statusCode = 500;
-        response.body = { err };
-        res.status(response.statusCode).send(response.body);
-      } else {
-        response.statusCode = 200;
-        response.body = {
-          message: "Ok",
-          data: data,
-        };
-      }
-      await res.status(response.statusCode).send(response.body);
+    Users.create(payload, (err, data) => {
+      helperFun.handler(err, data, res);
     });
   } catch (err) {
     response.statusCode = 500;

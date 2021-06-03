@@ -1,25 +1,19 @@
-const errorHandler = (err) => {
+const handler = (err, data, res) => {
   const response = {};
-  return (req, res) => {
+  if (err) {
     response.statusCode = 500;
-    response.body = { err };
+    response.body = err;
     res.status(response.statusCode).send(response.body);
-  };
-};
-
-const successHandler = (data) => {
-  const response = {};
-  return (req, res) => {
+  } else {
     response.statusCode = 200;
     response.body = {
-      message: "ok",
+      message: "Ok",
       data: data,
     };
     res.status(response.statusCode).send(response.body);
-  };
+  }
 };
 
 module.exports = {
-  errorHandler,
-  successHandler,
+  handler,
 };
