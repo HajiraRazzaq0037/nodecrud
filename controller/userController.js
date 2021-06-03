@@ -8,9 +8,7 @@ const getAllUser = (req, res) => {
       helperFun.handler(err, data, res);
     });
   } catch (err) {
-    response.statusCode = 500;
-    response.body = { err };
-    res.status(response.statusCode).send(response.body);
+    helperFun.handler(err, data, res);
   }
 };
 const getUser = (req, res) => {
@@ -20,9 +18,7 @@ const getUser = (req, res) => {
       helperFun.handler(err, data, res);
     });
   } catch (err) {
-    response.statusCode = 500;
-    response.body = { err };
-    res.status(response.statusCode).send(response.body);
+    helperFun.handler(err, data, res);
   }
 };
 const delUser = (req, res) => {
@@ -33,9 +29,7 @@ const delUser = (req, res) => {
       helperFun.handler(err, data, res);
     });
   } catch (err) {
-    response.statusCode = 500;
-    response.body = { err };
-    res.status(response.statusCode).send(response.body);
+    helperFun.handler(err, data, res);
   }
 };
 const updateUser = (req, res, next) => {
@@ -52,9 +46,7 @@ const updateUser = (req, res, next) => {
       }
     );
   } catch (err) {
-    response.statusCode = 500;
-    response.body = { err };
-    res.status(response.statusCode).send(response.body);
+    helperFun.handler(err, data, res);
   }
 };
 const addUser = (req, res, next) => {
@@ -68,9 +60,7 @@ const addUser = (req, res, next) => {
       helperFun.handler(err, data, res);
     });
   } catch (err) {
-    response.statusCode = 500;
-    response.body = JSON.stringify({ err });
-    res.status(response.statusCode).send(response.body);
+    helperFun.handler(err, data, res);
   }
 };
 
