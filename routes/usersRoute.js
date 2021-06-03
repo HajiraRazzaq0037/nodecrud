@@ -7,8 +7,8 @@ router.get(`/`, userController.getAllUser);
 // add  user t mongo db  done
 router.post(`/adduser`, userController.addUser);
 // in progress
-router.get(`/:id`, userController.getUser);
+router.get(`/getuserbyId/:id`, userController.getUser);
 router.delete(`/delusers/:id`, userController.delUser);
-router.put(`/updateuser/:id`, userController.updateUser);
+router.put(`/updateuser`, userController.updateUser);
 
 module.exports = router;
