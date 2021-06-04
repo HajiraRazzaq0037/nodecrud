@@ -1,66 +1,118 @@
-const Users = require("../models/user");
-const helperFun = require("../helpers/function");
+const User = require("../models/user");
+const {
+  HTTP_OK,
+  HTTP_INTERNAL_SERVER_ERROR,
+  SUCCESS,
+  FAILED,
+} = require("../const/code");
+const helperFun = require("../helpers/httpResponse");
 
 const getAllUser = (req, res) => {
-  const response = {};
   try {
-    Users.find((err, data) => {
-      helperFun.handler(err, data, res);
+    User.find((err, data) => {
+      if (data) {
+        return res
+          .status(HTTP_OK)
+          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+      }
+      return res
+        .status(HTTP_INTERNAL_SERVER_ERROR)
+        .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
     });
   } catch (err) {
-    helperFun.handler(err, data, res);
+    return res
+      .status(HTTP_INTERNAL_SERVER_ERROR)
+      .send(errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, err.message));
   }
 };
 const getUser = (req, res) => {
-  const response = {};
   try {
-    Users.findOne({ _id: req.params.id }, (err, data) => {
-      helperFun.handler(err, data, res);
+    User.findOne({ _id: req.params.id }, (err, data) => {
+      if (data) {
+        return res
+          .status(HTTP_OK)
+          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+      }
+      return res
+        .status(HTTP_INTERNAL_SERVER_ERROR)
+        .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
     });
   } catch (err) {
-    helperFun.handler(err, data, res);
+    return res
+      .status(HTTP_INTERNAL_SERVER_ERROR)
+      .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
   }
 };
 const delUser = (req, res) => {
-  const response = {};
   const id = req.params.id;
   try {
     Users.findOneAndRemove(id, (err, data) => {
-      helperFun.handler(err, data, res);
+      if (data) {
+        return res
+          .status(HTTP_OK)
+          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+      }
+      return res
+        .status(HTTP_INTERNAL_SERVER_ERROR)
+        .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
     });
   } catch (err) {
-    helperFun.handler(err, data, res);
+    return res
+      .status(HTTP_INTERNAL_SERVER_ERROR)
+      .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
   }
 };
-const updateUser = (req, res, next) => {
-  const response = {};
+const updateUser = (req, res) => {
   try {
-    Users.updateOne(
+    User.updateOne(
       { _id: req.body._id },
       {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
       },
       (err, data) => {
-        helperFun.handler(err, data, res);
+        if (data) {
+          return res
+            .status(HTTP_OK)
+            .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+        }
+        return res
+          .status(HTTP_INTERNAL_SERVER_ERROR)
+          .send(
+            helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED)
+          );
       }
     );
   } catch (err) {
-    helperFun.handler(err, data, res);
+    return res
+      .status(HTTP_INTERNAL_SERVER_ERROR)
+      .send(
+        helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, err.message)
+      );
   }
 };
-const addUser = (req, res, next) => {
-  const response = {};
+const addUser = (req, res) => {
   try {
     let payload = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
     };
-    Users.create(payload, (err, data) => {
-      helperFun.handler(err, data, res);
+    User.create(payload, (err, data) => {
+      if (data) {
+        return res
+          .status(HTTP_OK)
+          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+      }
+      return res
+        .status(HTTP_INTERNAL_SERVER_ERROR)
+        .send(helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, FAILED));
     });
   } catch (err) {
-    helperFun.handler(err, data, res);
+    return res
+      .status(HTTP_INTERNAL_SERVER_ERROR)
+      .send(
+        helperFun.errorResponse(HTTP_INTERNAL_SERVER_ERROR, err, err.message)
+      );
   }
 };
 

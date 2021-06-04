@@ -14,12 +14,11 @@ const getTemp = (req, res, next) => {
     client.get(city, async (err, data) => {
       if (err) throw err;
       if (data) {
-        // res.status(200).send({
-        //   data: JSON.parse(data),
-        //   message: "data retrieved from the cache",
-        // });
+        res.status(200).send({
+          data: data,
+          message: "data retrieved from the cache",
+        });
         console.log("datafrom cache");
-        res.send(data);
       } else {
         let url = `${constant.baseUrl}weather?q=${city}&appid=${constant.apiKey}`;
         axios
@@ -46,12 +45,11 @@ getSevenDayForCast = (req, res, next) => {
     client.get("temp", async (err, data) => {
       if (err) throw err;
       if (data) {
-        // res.status(200).send({
-        //   data: JSON.parse(data),
-        //   message: "data retrieved from the cache",
-        // });
+        res.status(200).send({
+          data: JSON.parse(data),
+          message: "data retrieved from the cache",
+        });
         console.log("datafrom cache");
-        res.send(data);
       } else {
         let url = `${constant.baseUrl}onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=${constant.apiKey}`;
         axios
