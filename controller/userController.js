@@ -3,6 +3,7 @@ const {
   HTTP_OK,
   HTTP_INTERNAL_SERVER_ERROR,
   SUCCESS,
+  DELETE_SUCCESS,
   FAILED,
 } = require("../const/code");
 const helperFun = require("../helpers/httpResponse");
@@ -50,7 +51,7 @@ const delUser = (req, res) => {
       if (data) {
         return res
           .status(HTTP_OK)
-          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+          .send(helperFun.okResponse(HTTP_OK, data, DELETE_SUCCESS));
       }
       return res
         .status(HTTP_INTERNAL_SERVER_ERROR)
@@ -100,8 +101,8 @@ const addUser = (req, res) => {
     User.create(payload, (err, data) => {
       if (data) {
         return res
-          .status(HTTP_OK)
-          .send(helperFun.okResponse(HTTP_OK, data, SUCCESS));
+          .status(HTTP_CREATED)
+          .send(helperFun.okResponse(HTTP_CREATED, data, SUCCESS));
       }
       return res
         .status(HTTP_INTERNAL_SERVER_ERROR)
