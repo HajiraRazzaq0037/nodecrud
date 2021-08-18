@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 let userSchema = new Schema({
   email: { type: String, required: true },
   name: { type: String },
-  password: { type: String, required: true },
+  // password: { type: String, required: true },
 });
 
 let User = mongoose.model("Users", userSchema);
